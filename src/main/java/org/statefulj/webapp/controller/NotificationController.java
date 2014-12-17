@@ -26,7 +26,6 @@ import org.statefulj.webapp.model.Notification;
 import org.statefulj.webapp.model.User;
 
 import static org.statefulj.webapp.model.Notification.*;
-import static org.statefulj.webapp.controller.NotificationController.*;
 
 import org.statefulj.webapp.services.NotificationService;
 import org.statefulj.webapp.services.UserService;

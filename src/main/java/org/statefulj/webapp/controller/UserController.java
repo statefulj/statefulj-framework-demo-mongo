@@ -23,6 +23,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -116,12 +117,9 @@ public class UserController {
 			//
 			try {
 				userService.save(user);
+			} catch(DuplicateKeyException e) {
+				throw new DuplicateUserException();
 			} catch(Exception e) {
-//				if (e.getCause() instanceof ConstraintViolationException) {
-//					throw new DuplicateUserException();
-//				} else {
-//					throw new RuntimeException(e);
-//				}
 				throw new RuntimeException(e);
 			}
 			
