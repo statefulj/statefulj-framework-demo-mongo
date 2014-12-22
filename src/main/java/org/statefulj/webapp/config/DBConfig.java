@@ -41,7 +41,7 @@ public class DBConfig extends AbstractMongoConfiguration {
 
 	@Override
 	public Mongo mongo() throws Exception {
-	    return new MongoClient("localhost", 27017);
+	    return new MongoClient("localhost", 37017);
 	}
 
 	/* (non-Javadoc)

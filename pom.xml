@@ -6,20 +6,24 @@
 	<groupId>org.statefulj.framework</groupId>
 	<artifactId>statefulj-framework-demo-mongo</artifactId>
 	<packaging>war</packaging>
-	<version>0.8</version>
-	
+	<version>0.8.1</version>
+
 	<name>statefulj-framework-demo-mongo</name>
 	<url>http://www.statefulj.org</url>
-	
+
 	<properties>
+		<javaee-web-api.version>6.0</javaee-web-api.version>
 		<jersey.version>2.13</jersey.version>
-		<statefulj.version>0.8</statefulj.version>
+		<statefulj.version>0.8.1</statefulj.version>
 		<spring.version>4.0.3.RELEASE</spring.version>
 		<spring.security.version>3.2.4.RELEASE</spring.security.version>
 		<jstl.version>1.2</jstl.version>
+		<camel.version>2.13.2</camel.version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 		<logback.version>1.0.13</logback.version>
 		<jdk.version>1.7</jdk.version>
+		<sitemesh.version>3.0.0</sitemesh.version>
+		<commons.version>2.6</commons.version>
 	</properties>
 
 	<dependencies>
@@ -28,7 +32,7 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
-			<version>6.0</version>
+			<version>${javaee-web-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -38,7 +42,7 @@
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
-		
+
 		<!-- Spring 4 dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -90,7 +94,7 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-spring3</artifactId>
@@ -101,7 +105,7 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring-javaconfig</artifactId>
-			<version>2.13.2</version>
+			<version>${camel.version}</version>
 		</dependency>
 
 		<!-- StatefulJ -->
@@ -137,7 +141,7 @@
 		<dependency>
 			<groupId>org.sitemesh</groupId>
 			<artifactId>sitemesh</artifactId>
-			<version>3.0.0</version>
+			<version>${sitemesh.version}</version>
 		</dependency>
 
 		<!-- Logging -->
@@ -158,19 +162,44 @@
 			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-broker</artifactId>
-			<version>5.9.1</version>
-		</dependency>
-		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
+			<version>${commons.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<finalName />
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.github.joelittlejohn.embedmongo</groupId>
+										<artifactId>embedmongo-maven-plugin</artifactId>
+										<versionRange>[0.0.0,)</versionRange>
+										<goals>
+											<goal>start</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -185,6 +214,24 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.joelittlejohn.embedmongo</groupId>
+				<artifactId>embedmongo-maven-plugin</artifactId>
+				<version>0.1.12</version>
+				<executions>
+					<execution>
+						<id>start</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<port>37017</port>
+							<version>2.6.6</version>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
