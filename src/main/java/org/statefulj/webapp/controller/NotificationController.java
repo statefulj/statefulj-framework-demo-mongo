@@ -39,8 +39,8 @@ public class NotificationController {
 	
 	// EVENTS
 	//
-	public static final String NOTIFY = "notify";
-	public static final String DELETE = "jersey:delete:/notifications/{id}";
+	public static final String NOTIFY_EVENT = "notify";
+	public static final String DELETE_EVENT = "jersey:delete:/notifications/{id}";
 	
 	@Resource
 	NotificationService notificationService;
@@ -51,7 +51,7 @@ public class NotificationController {
 	@Resource
 	UserService userService;
 	
-	@Transition(from=NON_EXISTENT, event=NOTIFY, to=SHOWING)
+	@Transition(from=NON_EXISTENT, event=NOTIFY_EVENT, to=SHOWING)
 	public void createNotification(Notification notification, String event, User user, Account account, String msg) {
 		notification.setType(account.getStateDocument().getState().toLowerCase());
 		notification.setMessage(msg);
@@ -60,7 +60,7 @@ public class NotificationController {
 		userService.save(user);
 	}
 
-	@Transition(from=SHOWING, event=DELETE, to=DELETED)
+	@Transition(from=SHOWING, event=DELETE_EVENT, to=DELETED)
 	public void deleteNotification(Notification notification, String event) {
 		User user = userSessionService.findLoggedInUser();
 		user.getNotifications().remove(notification);

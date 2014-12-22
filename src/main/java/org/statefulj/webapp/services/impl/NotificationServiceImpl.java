@@ -44,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void notify(User user, Account account, String msg) {
 		try {
-			notificationFSM.onEvent(NOTIFY, user, account, msg);
+			notificationFSM.onEvent(NOTIFY_EVENT, user, account, msg);
 		} catch (TooBusyException e) {
 			throw new RuntimeException(e);
 		}
